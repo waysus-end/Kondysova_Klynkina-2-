@@ -285,7 +285,6 @@ fun program5()
 
         group.add(words[i])
         shown.add(words[i])
-
         println(group.joinToString(", "))
     }
 }
