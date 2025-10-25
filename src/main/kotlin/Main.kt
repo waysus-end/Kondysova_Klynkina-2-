@@ -43,12 +43,13 @@ fun program1()
     println("Введите количество столбцов:")
     val cols = readLine()!!.toInt()
     val arr = Array(rows) { IntArray(cols) }
-    println("Введите $rows * $cols трехзначных чисел по одному на строку:")
+    println("Введите массив размером $rows * $cols, каждое число через пробел, а каждая строчка через enter:")
     for (i in 0 until rows)
     {
+        val line = readLine()!!.split(" ")
         for (j in 0 until cols)
         {
-            arr[i][j] = readLine()!!.toInt()
+            arr[i][j] = line[j].toInt()
         }
     }
     val digits = mutableSetOf<Char>()
@@ -121,42 +122,40 @@ fun program2()
 fun program3()
 {
     val alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ"
-    fun index(c: Char): Int
-    {
-        return alphabet.indexOf(c.uppercaseChar())
-    }
+
     println("Выберите 1 - Зашифровать, 2 - Расшифровать:")
     val choice = readLine()!!.toInt()
+
     println("Введите ключевое слово:")
     val key = readLine()!!.uppercase()
+
     println("Введите текст:")
     val text = readLine()!!
-    val result = StringBuilder()
+
+    var result = ""
     var keyPos = 0
+
     for (ch in text)
     {
-        val pos = index(ch)
+        val pos = alphabet.indexOf(ch.uppercaseChar())
         if (pos == -1)
         {
-            result.append(ch)
+            result += ch
         }
         else
         {
-            val shift = index(key[keyPos])
+            val shift = alphabet.indexOf(key[keyPos])
             val newPos = if (choice == 1)
-            {
                 (pos + shift) % alphabet.length
-            }
             else
-            {
                 (pos - shift + alphabet.length) % alphabet.length
-            }
-            result.append(alphabet[newPos])
+            result += alphabet[newPos]
             keyPos = (keyPos + 1) % key.length
         }
     }
+
     println("Результат:")
-    println(result.toString())
+    println(result)
 }
 
 
