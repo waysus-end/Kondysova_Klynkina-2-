@@ -38,6 +38,7 @@ fun main()
 
 fun program1()
 {
+    println("Программа запрашивает двухмерный массив и подсчитывает колличество различных цифр используемых в нем.")
     println("Введите количество строк:")
     val rows = readLine()!!.toInt()
     println("Введите количество столбцов:")
@@ -83,6 +84,7 @@ fun program2()
 {
     val size = 5
     val arr = Array(size) { IntArray(size) }
+    println("Программа проверяет симметричен ли массив относительно главное диагонали.")
     println("Заполните массив 5*5 числами, каждое число через пробел, а каждая строчка через enter:")
     for (i in 0 until size)
     {
@@ -122,25 +124,21 @@ fun program2()
 fun program3()
 {
     val alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ"
-
+    println("Программа шифрует и расшифровывает слова заданные пользователем с помощью ключевого слова.")
     println("Выберите 1 - Зашифровать, 2 - Расшифровать:")
     val choice = readLine()!!.toInt()
-
     println("Введите ключевое слово:")
     val key = readLine()!!.uppercase()
-
     println("Введите текст:")
     val text = readLine()!!
-
     var result = ""
     var keyPos = 0
-
-    for (ch in text)
+    for (i in text)
     {
-        val pos = alphabet.indexOf(ch.uppercaseChar())
+        val pos = alphabet.indexOf(i.uppercaseChar())
         if (pos == -1)
         {
-            result += ch
+            result += i
         }
         else
         {
@@ -153,7 +151,6 @@ fun program3()
             keyPos = (keyPos + 1) % key.length
         }
     }
-
     println("Результат:")
     println(result)
 }
@@ -162,6 +159,7 @@ fun program3()
 
 fun program4()
 {
+    println("Программа проверяет пересечение двух массивов, которые ввел пользователь.")
     println("Введите первый массив чисел через пробел:")
     val input1 = readLine()!!
     val arr1 = input1.split(" ")
@@ -205,85 +203,33 @@ fun program4()
 
 fun program5()
 {
-    println("Введите слова через пробел:")
-    val input = readLine()!!
-    val words = input.split(" ")
-    val shown = mutableListOf<String>()
-    for (i in 0 until words.size)
-    {
-        if (shown.contains(words[i]))
-            continue
-
-        val letters1 = mutableListOf<Char>()
-        for (c in words[i])
+    println("Программа выводит слова из массива, который ввел пользователь, по признаку 'состоят из одинаковых букв'.")
+        println("Введите слова через пробел:")
+        val input = readLine()!!
+        val words = input.split(" ")
+        val shown = mutableListOf<String>()
+        for (i in 0 until words.size)
         {
-            val up = if (c in 'а'..'я') c else c
-            letters1.add(up)
-        }
-        for (x in 0 until letters1.size - 1)
-        {
-            for (y in 0 until letters1.size - x - 1)
-            {
-                if (letters1[y] > letters1[y + 1])
-                {
-                    val temp = letters1[y]
-                    letters1[y] = letters1[y + 1]
-                    letters1[y + 1] = temp
-                }
-            }
-        }
-
-        val group = mutableListOf<String>()
-        for (j in 0 until words.size)
-        {
-            if (i == j || shown.contains(words[j]))
+            if (shown.contains(words[i]))
                 continue
-
-            val letters2 = mutableListOf<Char>()
-            for (c in words[j])
+            val letters1 = words[i].lowercase().toMutableList()
+            letters1.sort()
+            val group = mutableListOf<String>()
+            for (j in 0 until words.size)
             {
-                val up = if (c in 'а'..'я') c else c
-                letters2.add(up)
-            }
-            for (x in 0 until letters2.size - 1)
-            {
-                for (y in 0 until letters2.size - x - 1)
+                if (i == j || shown.contains(words[j]))
+                    continue
+                val letters2 = words[j].lowercase().toMutableList()
+                letters2.sort()
+                if (letters1 == letters2)
                 {
-                    if (letters2[y] > letters2[y + 1])
-                    {
-                        val temp = letters2[y]
-                        letters2[y] = letters2[y + 1]
-                        letters2[y + 1] = temp
-                    }
+                    group.add(words[j])
+                    shown.add(words[j])
                 }
             }
-
-            var equal = true
-            if (letters1.size != letters2.size)
-            {
-                equal = false
-            }
-            else
-            {
-                for (k in 0 until letters1.size)
-                {
-                    if (letters1[k] != letters2[k])
-                    {
-                        equal = false
-                        break
-                    }
-                }
-            }
-
-            if (equal)
-            {
-                group.add(words[j])
-                shown.add(words[j])
-            }
+            group.add(words[i])
+            shown.add(words[i])
+            println(group.joinToString(", "))
         }
-
-        group.add(words[i])
-        shown.add(words[i])
-        println(group.joinToString(", "))
     }
-}
+
